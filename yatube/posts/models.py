@@ -3,7 +3,6 @@ from django.db import models
 
 from yatube.settings import TITLE_SYMBOL_VIEW
 
-
 User = get_user_model()
 
 

@@ -22,7 +22,6 @@ class PostViewsTests(TestCase):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
-
     def test_cache_page(self):
         response = self.authorized_client.get(reverse('posts:index')).content
         self.post_cash.delete()

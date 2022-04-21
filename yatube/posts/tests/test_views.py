@@ -4,7 +4,6 @@ import tempfile
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
@@ -159,14 +158,3 @@ class PostViewsTests(TestCase):
             with self.subTest(value=value):
                 form_field = response.context['form'].fields[value]
                 self.assertIsInstance(form_field, expected)
-
-    def test_cache_page(self):
-        response = self.authorized_client.get(reverse('posts:index')).content
-        self.post_cash.delete()
-        response_cache = self.authorized_client.get(
-            reverse('posts:index')).content
-        self.assertEqual(response, response_cache)
-        cache.clear()
-        response_clear = self.authorized_client.get(
-            reverse('posts:index')).content
-        self.assertNotEqual(response, response_clear)

@@ -23,13 +23,13 @@ class PostViewsTests(TestCase):
         self.authorized_client.force_login(self.user)
 
 
-def test_cache_page(self):
-    response = self.authorized_client.get(reverse('posts:index')).content
-    self.post_cash.delete()
-    response_cache = self.authorized_client.get(
-        reverse('posts:index')).content
-    self.assertEqual(response, response_cache)
-    cache.clear()
-    response_clear = self.authorized_client.get(
-        reverse('posts:index')).content
-    self.assertNotEqual(response, response_clear)
+    def test_cache_page(self):
+        response = self.authorized_client.get(reverse('posts:index')).content
+        self.post_cash.delete()
+        response_cache = self.authorized_client.get(
+            reverse('posts:index')).content
+        self.assertEqual(response, response_cache)
+        cache.clear()
+        response_clear = self.authorized_client.get(
+            reverse('posts:index')).content
+        self.assertNotEqual(response, response_clear)

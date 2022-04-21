@@ -53,10 +53,6 @@ class PostViewsTests(TestCase):
                 group=cls.group,
                 image=uploaded,
             )
-        cls.post_cash = Post.objects.create(
-            author=cls.user,
-            text='Тестируем caсhe',
-        )
 
     @classmethod
     def tearDownClass(cls):

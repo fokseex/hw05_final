@@ -10,7 +10,6 @@ from .utils import get_paginator
 # TODO сделать рефакторниг проекта
 
 
-@cache_page(20)
 def index(request):
     post_list = Post.objects.all().order_by('-pub_date')
     context = get_paginator(post_list, request)

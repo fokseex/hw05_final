@@ -75,7 +75,6 @@ class PostURLTests(TestCase):
 
     def test_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
-        # Без переменной post_edit_template_url не проходит pytest на сервере
         post_edit_template_url = 'posts/create_post.html'
         templates_page_names = {
             'posts/index.html': reverse('posts:index'),

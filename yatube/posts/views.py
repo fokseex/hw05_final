@@ -10,8 +10,13 @@ from .utils import get_paginator
 
 
 def index(request):
-    post_list = Post.objects.all().order_by('-pub_date')
-    context = get_paginator(post_list, request)
+    post_list = Post.objects.select_related('group').all().order_by(
+        '-pub_date')
+    index_active = True
+    context = {
+        'index': index_active,
+    }
+    context.update(get_paginator(post_list, request))
     return render(request, 'posts/index.html', context)
 
 
@@ -30,8 +35,9 @@ def profile(request, username):
     posts_list = Post.objects.select_related('author', 'group').filter(
         author=author).order_by('-pub_date')
     author_posts_count = posts_list.count()
-    user = request.user
-    following = user.is_authenticated and author.following.exists()
+    following = (request.user.is_authenticated and (Follow.objects.filter(
+        user=request.user, author=author).exists())
+    )
     context = {
         'author': author,
         'author_posts_count': author_posts_count,
@@ -107,9 +113,11 @@ def follow_index(request):
     user = request.user
     posts_list = Post.objects.filter(author__following__user=user)
     post_count = posts_list.count()
+    follow_active = True
     context = {
         'user': user,
         'post_count': post_count,
+        'follow': follow_active,
     }
     context.update(get_paginator(posts_list, request))
     return render(request, 'posts/follow.html', context)
@@ -117,7 +125,7 @@ def follow_index(request):
 
 @login_required
 def profile_follow(request, username):
-    author = User.objects.get(username=username)
+    author = get_object_or_404(User, username=username)
     user = request.user
     if author != user:
         Follow.objects.get_or_create(user=user, author=author)

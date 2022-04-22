@@ -121,6 +121,3 @@ class FormTests(TestCase):
                              f'/auth/login/?next=/posts/'
                              f'{self.post.id}/comment/')
         self.assertEqual(Comment.objects.count(), 0)
-        # Как сделать проверку что при запросе объекта ошибка
-        # posts.models.Comment.DoesNotExist:
-        # Comment matching query does not exist ? Какой assert использовать

@@ -28,7 +28,7 @@ class FollowViewsTest(TestCase):
         self.authorized_client.get(reverse('posts:profile_follow',
                                            kwargs={'username': self.user}))
         follow = Follow.objects.get()
-        self.assertEqual(str(self.user), str(follow))
+        self.assertEqual(f'{self.user_2} подписан {self.user}', str(follow))
 
     def test_auth_user_unfollow(self):
         """Проверяем что пользователь может отписаться от автора"""
@@ -39,7 +39,6 @@ class FollowViewsTest(TestCase):
 
     def test_post_views_follow_user(self):
         """Запись появляется в ленте подписки"""
-        # Вопрос как сделать assert что ошибка doesnotexist ? Через try/except?
         Follow.objects.create(user=self.user_2, author=self.user)
         response = self.authorized_client.get(reverse('posts:follow_index'))
         self.assertContains(response, self.post.text)

@@ -77,12 +77,6 @@ class Comment(models.Model):
 
 
 class Follow(models.Model):
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user", "author"], name="unique_subscription"
-            )
-        ]
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -93,6 +87,13 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following'
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "author"], name="unique_subscription"
+            )
+        ]
 
     def __str__(self):
         return f'{self.user} подписан {self.author}'
